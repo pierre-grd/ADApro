@@ -1,2 +1,2 @@
 # ADApro
-Project of Advanced Data Analytics (Marcell-Louis-Pierre)
+Project of Advanced Data Analytics (Louis-Pierre)
