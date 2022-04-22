@@ -22,6 +22,6 @@ def dataset_info(df):
 
 def dummy_creation(df):
     df["skipped"] = df["not_skipped"].apply(lambda x: 1 if x == False else 0)
-    df = df.drop(["session_id", "track_id", "not_skipped"], axis=1)
+    df = df.drop(["track_id", "not_skipped", "date", "release_year"], axis=1)
     return df
 
