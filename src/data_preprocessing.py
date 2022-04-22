@@ -8,10 +8,9 @@ def load_data(training_path, label_path):
     training_df.columns = training_df.columns.str.replace('track_id_clean', 'track_id')
     df = pd.merge(training_df, label_train, on='track_id')
 
-    ## non-premium users can't skip tracks : filter premium == True
-    df = df[df['premium'] == True]
-    return df
+    ## Spotify Free on mobile is limited to 6 skips per 1 hour
 
+    return df
 
 def dataset_info(df):
     print(df.sample(3))

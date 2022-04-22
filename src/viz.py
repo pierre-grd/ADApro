@@ -19,7 +19,7 @@ def scatterplot_skip(df, col_name1, col_name2):
     sns.scatterplot(x=col_name1, y=col_name2, hue="skipped", data=df)
 
 
-def countplot(df):
-    crosstab = pd.crosstab(df["context_type"], df["skipped"])
+def countplot(df, col1):
+    crosstab = pd.crosstab(df[col1], df["skipped"])
     crosstab.div(crosstab.sum(1).astype(float), axis=0).plot(kind="bar", figsize=(20, 5))
     plt.show()
