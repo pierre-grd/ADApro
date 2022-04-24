@@ -19,10 +19,6 @@ def dataset_info(df):
 
 
 def dummy_creation(df):
-    df = pd.get_dummies(df, columns=['hist_user_behavior_reason_start', 'hist_user_behavior_reason_end',
-                                     'hist_user_behavior_is_shuffle', 'mode', 'premium', 'context_type', 'skip_1',
-                                     'skip_2',
-                                     'skip_3'], drop_first=True)
     df["skipped"] = df["not_skipped"].apply(lambda x: 1 if x == False else 0)
     df = df.drop(["track_id", "not_skipped", "date", "release_year", "session_id"], axis=1)
     return df
