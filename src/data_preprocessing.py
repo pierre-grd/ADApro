@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn import preprocessing
 
-min_max_scaler = preprocessing.MinMaxScaler()
 pd.set_option('display.max_columns', None)
 
 
@@ -17,8 +16,6 @@ def dataset_info(df):
     print(df.sample(3))
     print(df.describe())
     print('\n')
-    print(
-        f'This partitioned dataset consists of {df["session_id"].unique().size} sessions of premium users, who listened to or skipped  {df.shape[0]} tracks')
 
 
 def dummy_creation(df):
@@ -27,14 +24,14 @@ def dummy_creation(df):
                                      'skip_2',
                                      'skip_3'], drop_first=True)
     df["skipped"] = df["not_skipped"].apply(lambda x: 1 if x == False else 0)
-    df = df.drop(["track_id", "not_skipped", "date", "release_year"], axis=1)
+    df = df.drop(["track_id", "not_skipped", "date", "release_year", "session_id"], axis=1)
     return df
 
 
 def normalize_float(df):
     column = list(df.loc[:, df.dtypes == float].columns)
     x = df[column].values
-    x_scaled = min_max_scaler.fit_transform(x)
+    x_scaled = preprocessing.MinMaxScaler(feature_range=(0, 1)).fit_transform(x)
     df_temp = pd.DataFrame(x_scaled, columns=column, index=df.index)
     df[column] = df_temp
     return df
