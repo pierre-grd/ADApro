@@ -6,14 +6,20 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import classification_report
 
 
-def split_data(df):
-    X_df = df[['session_id', 'duration', 'us_popularity_estimate', 'acousticness', 'beat_strength', 'bounciness', 'danceability',
-               'dyn_range_mean', 'energy', 'flatness', 'instrumentalness', 'key',
-               'liveness', 'loudness', 'mechanism', 'tempo', 'organism', 'speechiness', 'tempo', 'time_signature',
-               'valence', 'acoustic_vector_0', 'acoustic_vector_1', 'acoustic_vector_2', 'acoustic_vector_3',
-               'acoustic_vector_4', 'acoustic_vector_5', 'acoustic_vector_6', 'acoustic_vector_7']]
+def split_data(df, only_track=True):
+    if only_track == True:
+        X_df = df[['session_id', 'duration', 'us_popularity_estimate', 'acousticness', 'beat_strength', 'bounciness',
+                   'danceability',
+                   'dyn_range_mean', 'energy', 'flatness', 'instrumentalness', 'key',
+                   'liveness', 'loudness', 'mechanism', 'tempo', 'organism', 'speechiness', 'tempo', 'time_signature',
+                   'valence', 'acoustic_vector_0', 'acoustic_vector_1', 'acoustic_vector_2', 'acoustic_vector_3',
+                   'acoustic_vector_4', 'acoustic_vector_5', 'acoustic_vector_6', 'acoustic_vector_7']]
+    else:
+        X_df = df.drop("skipped", axis=1)
+
     y_df = df["skipped"]
-    X_train, X_test, y_train, y_test = train_test_split(X_df, y_df, test_size=0.4, random_state=0)
+
+    X_train, X_test, y_train, y_test = train_test_split(X_df, y_df, test_size=0.25, random_state=0)
     return X_train, X_test, y_train, y_test
 
 
@@ -32,10 +38,11 @@ def GBC_model(X_train, X_test, y_train, y_test):
                    'min_samples_split': min_samples_split,
                    'min_samples_leaf': min_samples_leaf}
 
-    #GBC_model = RandomizedSearchCV(GBC_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=2, verbose=5)
+    # GBC_model = RandomizedSearchCV(GBC_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=2, verbose=5)
     GBC_model.fit(X_train, y_train)
     GBC_pred = GBC_model.predict(X_test)
     return classification_report(y_test, GBC_pred)
+
 
 def RF_model(X_train, X_test, y_train, y_test):
     RF_model = RandomForestClassifier()
@@ -49,7 +56,7 @@ def RF_model(X_train, X_test, y_train, y_test):
                    'max_depth': max_depth,
                    'min_samples_split': min_samples_split,
                    'min_samples_leaf': min_samples_leaf}
-    RF_model = RandomizedSearchCV(RF_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=2, verbose=5)
+    # RF_model = RandomizedSearchCV(RF_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=2, verbose=5)
 
     RF_model.fit(X_train, y_train)
     RF_model_pred = RF_model.predict(X_test)

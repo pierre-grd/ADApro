@@ -10,7 +10,7 @@ label_path = 'data/tf_mini.csv'
 #data load
 #====================
 
-df = dummy_creation(load_data(training_path, label_path))
+df = load_data(training_path, label_path)
 
 # small dataset summary
 #dataset_info(df)
@@ -42,8 +42,10 @@ df = dummy_creation(load_data(training_path, label_path))
 #Cleaning
 #====================
 
+df = dummy_creation(df)
 df = normalize_float(df)
-#df = downsample(df)
+df = downsample(df)
+
 #we choose to not downsample the data, since we're loosing accuracy if so
 #skip_nonskip_distribution(df)
 
@@ -51,6 +53,6 @@ df = normalize_float(df)
 #Model
 #====================
 
-X_train, X_test, y_train, y_test = split_data(df)
+X_train, X_test, y_train, y_test = split_data(df, True)
 print(GBC_model(X_train, X_test, y_train, y_test))
 #print(RF_model(X_train, X_test, y_train, y_test))
