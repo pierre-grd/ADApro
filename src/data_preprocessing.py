@@ -10,19 +10,20 @@ def load_data(training_path, label_path):
     label_train = pd.read_csv(label_path)
     training_df.columns = training_df.columns.str.replace('track_id_clean', 'track_id')
     df = pd.merge(training_df, label_train, on='track_id')
+    df["skipped"] = df["not_skipped"].apply(lambda x: 1 if x == False else 0)
+    df = df.drop(["track_id", "not_skipped", "date", "release_year", "skip_1", "skip_2", "skip_3"], axis=1)
     del training_df, label_train
     return df
 
 
 def dataset_info(df):
     print(df.sample(3))
+    print('\n')
     print(df.describe())
     print('\n')
 
 
 def dummy_creation(df):
-    df["skipped"] = df["not_skipped"].apply(lambda x: 1 if x == False else 0)
-    df = df.drop(["track_id", "not_skipped", "date", "release_year", "skip_1", "skip_2", "skip_3"], axis=1)
     df['session_id'] = pd.factorize(df['session_id'])[0]
     df = pd.get_dummies(df, columns=['hist_user_behavior_reason_start', 'hist_user_behavior_reason_end',
                                      'hist_user_behavior_is_shuffle', 'mode', 'premium', 'context_type',

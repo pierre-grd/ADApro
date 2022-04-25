@@ -13,14 +13,14 @@ label_path = 'data/tf_mini.csv'
 df = load_data(training_path, label_path)
 
 # small dataset summary
-#dataset_info(df)
+dataset_info(df)
 
 
 
 #====================
 #EDA
 #====================
-#skip_nonskip_distribution(df)
+#skip_nonskip_distribution(df, "raw")
 
 #acoust = ['acoustic_vector_0', 'acoustic_vector_1', 'acoustic_vector_2', 'acoustic_vector_3', 'acoustic_vector_4',
 #         'acoustic_vector_5', 'acoustic_vector_6', 'acoustic_vector_7']
@@ -28,7 +28,9 @@ df = load_data(training_path, label_path)
 
 #hist_continuous(df)
 
-#scatterplot_skip(df, "energy", "duration")
+#int_column = list(df.loc[:, df.dtypes == int].columns)
+#float_column = list(df.loc[:, df.dtypes == float].columns)
+#scatterplot_skip(df, int_column, float_column)
 
 #categorical_col = ['session_position', 'session_length', 'context_switch',
 #                  'no_pause_before_play', 'short_pause_before_play',
@@ -47,12 +49,13 @@ df = normalize_float(df)
 df = downsample(df)
 
 #we choose to not downsample the data, since we're loosing accuracy if so
-#skip_nonskip_distribution(df)
+skip_nonskip_distribution(df, "downsample")
 
 #====================
 #Model
 #====================
 
 X_train, X_test, y_train, y_test = split_data(df, True)
-print(GBC_model(X_train, X_test, y_train, y_test))
+#print(logistic_model(X_train, X_test, y_train, y_test))
+#print(GBC_model(X_train, X_test, y_train, y_test))
 #print(RF_model(X_train, X_test, y_train, y_test))

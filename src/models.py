@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
@@ -22,15 +23,21 @@ def split_data(df, only_track=True):
     X_train, X_test, y_train, y_test = train_test_split(X_df, y_df, test_size=0.25, random_state=0)
     return X_train, X_test, y_train, y_test
 
+def logistic_model(X_train, X_test, y_train, y_test):
+    logistic_model = LogisticRegression()
+    logistic_model.fit(X_train, y_train)
+    logistic_prediction = logistic_model.predict(X_test)
+    return classification_report(y_test, logistic_prediction)
+
 
 def GBC_model(X_train, X_test, y_train, y_test):
     GBC_model = GradientBoostingClassifier()
-    n_estimators = [int(x) for x in np.linspace(start=200, stop=2000, num=10)]
-    learning_rate = [float(x) for x in np.linspace(start=0.01, stop=0.5, num=5)]
+    n_estimators = [int(x) for x in np.linspace(start=100, stop=1100, num=5)]
+    learning_rate = [0.01, 0.1, 0.5]
     max_features = ['auto', 'sqrt']
-    max_depth = [int(x) for x in np.linspace(100, 1100, num=11)]
-    min_samples_split = [2, 5, 10]
-    min_samples_leaf = [1, 2, 5]
+    max_depth = [5,15]
+    min_samples_split = [2, 5]
+    min_samples_leaf = [1, 2]
     random_grid = {'n_estimators': n_estimators,
                    'max_features': max_features,
                    'learning_rate': learning_rate,
@@ -38,7 +45,7 @@ def GBC_model(X_train, X_test, y_train, y_test):
                    'min_samples_split': min_samples_split,
                    'min_samples_leaf': min_samples_leaf}
 
-    # GBC_model = RandomizedSearchCV(GBC_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=2, verbose=5)
+    #GBC_model = RandomizedSearchCV(GBC_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=3, verbose=2)
     GBC_model.fit(X_train, y_train)
     GBC_pred = GBC_model.predict(X_test)
     return classification_report(y_test, GBC_pred)
