@@ -11,6 +11,9 @@ def matrix(df):
                 )
     plt.show()
 
+def skip_nonskip_distribution(df):
+    sns.countplot(x="skipped", data=df)
+    plt.show()
 
 def hist_continuous(df):
     column = list(df.loc[:, df.dtypes == float].columns)
