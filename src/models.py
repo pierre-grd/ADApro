@@ -30,40 +30,39 @@ def logistic_model(X_train, X_test, y_train, y_test):
     return classification_report(y_test, logistic_prediction)
 
 
-def GBC_model(X_train, X_test, y_train, y_test):
+def GBC_model(X_train, X_test, y_train, y_test, hyper_tuning = False):
     GBC_model = GradientBoostingClassifier()
-    n_estimators = [int(x) for x in np.linspace(start=100, stop=1100, num=5)]
+    n_estimators = [int(x) for x in np.linspace(start=100, stop=1100, num=3)]
     learning_rate = [0.01, 0.1, 0.5]
     max_features = ['auto', 'sqrt']
-    max_depth = [5,15]
-    min_samples_split = [2, 5]
     min_samples_leaf = [1, 2]
     random_grid = {'n_estimators': n_estimators,
                    'max_features': max_features,
                    'learning_rate': learning_rate,
-                   'max_depth': max_depth,
-                   'min_samples_split': min_samples_split,
                    'min_samples_leaf': min_samples_leaf}
 
-    #GBC_model = RandomizedSearchCV(GBC_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=3, verbose=2)
+    if hyper_tuning == True:
+        GBC_model = RandomizedSearchCV(GBC_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=3, verbose=2)
+    else:
+        GBC_model = GradientBoostingClassifier()
+
     GBC_model.fit(X_train, y_train)
     GBC_pred = GBC_model.predict(X_test)
     return classification_report(y_test, GBC_pred)
 
 
-def RF_model(X_train, X_test, y_train, y_test):
+def RF_model(X_train, X_test, y_train, y_test, hyper_tuning = False):
     RF_model = RandomForestClassifier()
-    n_estimators = [int(x) for x in np.linspace(start=200, stop=2000, num=10)]
-    max_depth = [int(x) for x in np.linspace(2, 20, num=11)]
-    min_samples_split = [2, 5, 10]
+    n_estimators = [int(x) for x in np.linspace(start=200, stop=2000, num=3)]
+    max_depth = [int(x) for x in np.linspace(2, 20, num=3)]
     min_samples_leaf = [1, 2, 5]
-    bootstrap = [True, False]
     random_grid = {'n_estimators': n_estimators,
-                   'bootstrap': bootstrap,
                    'max_depth': max_depth,
-                   'min_samples_split': min_samples_split,
                    'min_samples_leaf': min_samples_leaf}
-    # RF_model = RandomizedSearchCV(RF_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=2, verbose=5)
+    if hyper_tuning == True:
+        RF_model = RandomizedSearchCV(RF_model, param_distributions=random_grid, n_jobs=-1, n_iter=25, cv=3, verbose=2)
+    else:
+        RF_model = GradientBoostingClassifier()
 
     RF_model.fit(X_train, y_train)
     RF_model_pred = RF_model.predict(X_test)

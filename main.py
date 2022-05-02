@@ -55,7 +55,7 @@ skip_nonskip_distribution(df, "downsample")
 #Model -> only track features
 #=============================
 
-X_train, X_test, y_train, y_test = split_data(df, True)
+X_train, X_test, y_train, y_test = split_data(df, only_track= True)
 #print(logistic_model(X_train, X_test, y_train, y_test))
 #print(GBC_model(X_train, X_test, y_train, y_test))
 #print(RF_model(X_train, X_test, y_train, y_test))
@@ -66,7 +66,7 @@ del X_train, X_test, y_train, y_test
 #Model -> all features
 #=============================
 
-X_train, X_test, y_train, y_test = split_data(df, False)
+X_train, X_test, y_train, y_test = split_data(df, only_track= False)
 #print(logistic_model(X_train, X_test, y_train, y_test))
 #print(GBC_model(X_train, X_test, y_train, y_test))
 #print(RF_model(X_train, X_test, y_train, y_test))
