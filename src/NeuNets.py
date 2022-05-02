@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
+
 def rnn_preprocess(X_train, X_test, y_train, y_test):
     X_train = np.array(X_train)
     y_train = np.array(y_train)
@@ -26,6 +27,7 @@ def rnn_model(X_train):
 
     model = tf.keras.Model(inputs=[rnn1], outputs=outputs)
     return model
+
 
 def rnn_train(model, X_train, X_test, y_train, y_test):
     model.compile(loss=tf.keras.losses.MeanSquaredError(),

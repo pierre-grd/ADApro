@@ -1,5 +1,5 @@
 from src.data_preprocessing import *
-from src.viz import *
+from src.EDA import *
 from src.models import *
 
 
