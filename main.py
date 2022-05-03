@@ -20,25 +20,25 @@ dataset_info(df)
 #====================
 #EDA
 #====================
-#skip_nonskip_distribution(df, "raw")
+skip_nonskip_distribution(df, "raw")
 
-#acoust = ['acoustic_vector_0', 'acoustic_vector_1', 'acoustic_vector_2', 'acoustic_vector_3', 'acoustic_vector_4',
-#         'acoustic_vector_5', 'acoustic_vector_6', 'acoustic_vector_7']
-#matrix(df[acoust])
+acoust = ['acoustic_vector_0', 'acoustic_vector_1', 'acoustic_vector_2', 'acoustic_vector_3', 'acoustic_vector_4',
+         'acoustic_vector_5', 'acoustic_vector_6', 'acoustic_vector_7']
+matrix(df[acoust])
 
-#hist_continuous(df)
+hist_continuous(df)
 
-#int_column = list(df.loc[:, df.dtypes == int].columns)
-#float_column = list(df.loc[:, df.dtypes == float].columns)
-#scatterplot_skip(df, int_column, float_column)
+int_column = list(df.loc[:, df.dtypes == int].columns)
+float_column = list(df.loc[:, df.dtypes == float].columns)
+scatterplot_skip(df, int_column, float_column)
 
-#categorical_col = ['session_position', 'session_length', 'context_switch',
-#                  'no_pause_before_play', 'short_pause_before_play',
-#                  'long_pause_before_play', 'hist_user_behavior_n_seekfwd', 'hist_user_behavior_n_seekback',
-#                  'premium', 'context_type',
-#                  'mode']
+categorical_col = ['session_position', 'session_length', 'context_switch',
+                  'no_pause_before_play', 'short_pause_before_play',
+                  'long_pause_before_play', 'hist_user_behavior_n_seekfwd', 'hist_user_behavior_n_seekback',
+                  'premium', 'context_type',
+                  'mode']
 
-#countplot(df, categorical_col)
+countplot(df, categorical_col)
 
 #====================
 #Cleaning
@@ -46,7 +46,7 @@ dataset_info(df)
 
 df = dummy_creation(df)
 df = normalize_float(df)
-df = downsample(df)
+#df = downsample(df)
 
 #we choose to not downsample the data, since we're loosing accuracy if so
 skip_nonskip_distribution(df, "downsample")
@@ -56,9 +56,9 @@ skip_nonskip_distribution(df, "downsample")
 #=============================
 
 X_train, X_test, y_train, y_test = split_data(df, only_track= True)
-#print(logistic_model(X_train, X_test, y_train, y_test))
-#print(GBC_model(X_train, X_test, y_train, y_test))
-#print(RF_model(X_train, X_test, y_train, y_test))
+print(logistic_model(X_train, X_test, y_train, y_test))
+print(GBC_model(X_train, X_test, y_train, y_test, hyper_tuning = False))
+print(RF_model(X_train, X_test, y_train, y_test, hyper_tuning = False))
 
 
 del X_train, X_test, y_train, y_test
@@ -67,6 +67,6 @@ del X_train, X_test, y_train, y_test
 #=============================
 
 X_train, X_test, y_train, y_test = split_data(df, only_track= False)
-#print(logistic_model(X_train, X_test, y_train, y_test))
-#print(GBC_model(X_train, X_test, y_train, y_test))
-#print(RF_model(X_train, X_test, y_train, y_test))
+print(logistic_model(X_train, X_test, y_train, y_test))
+print(GBC_model(X_train, X_test, y_train, y_test, hyper_tuning = False))
+print(RF_model(X_train, X_test, y_train, y_test, hyper_tuning = False))

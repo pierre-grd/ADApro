@@ -6,6 +6,12 @@ pd.set_option('display.max_columns', None)
 
 
 def load_data(training_path, label_path):
+    """
+    :param training_path: A string that stores the data set path of the user's listening sessions information
+    :param label_path: A string that stores the path of the dataset of information about the track's intrinsic characteristics
+    :return:A pandas array with all the information (on the music itself and on the user sessions)
+    """
+
     training_df = pd.read_csv(training_path)
     label_train = pd.read_csv(label_path)
     training_df.columns = training_df.columns.str.replace('track_id_clean', 'track_id')
@@ -24,6 +30,11 @@ def dataset_info(df):
 
 
 def dummy_creation(df):
+    """
+    :param df:
+    :return:
+    """
+
     df['session_id'] = pd.factorize(df['session_id'])[0]
     df = pd.get_dummies(df, columns=['hist_user_behavior_reason_start', 'hist_user_behavior_reason_end',
                                      'hist_user_behavior_is_shuffle', 'mode', 'premium', 'context_type',
@@ -32,6 +43,10 @@ def dummy_creation(df):
 
 
 def normalize_float(df):
+    """
+    :param df: The pandas array with all the information (on the music itself and on the user sessions)
+    :return: The transformed dataset: float columns are now normalized
+    """
     column = list(df.loc[:, df.dtypes == float].columns)
     x = df[column].values
     x_scaled = StandardScaler().fit_transform(x)
@@ -42,6 +57,12 @@ def normalize_float(df):
 
 
 def downsample(df):
+    """
+    This function allows to resample (to the less represented class) to have a balanced dataset
+
+    :param df: The pandas array with all the information (on the music itself and on the user sessions)
+    :return: The pandas array with balanced classes
+    """
     skip = df[df["skipped"] == 0]
     nonskip = df[df["skipped"] == 1]
     nonskip_downsample = resample(nonskip,
