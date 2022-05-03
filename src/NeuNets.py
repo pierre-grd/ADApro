@@ -18,13 +18,10 @@ def rnn_model(X_train):
     rnn = tf.keras.layers.LSTM(256, return_sequences=True, recurrent_activation='sigmoid')(rnn)
     rnn = tf.keras.layers.LSTM(256, recurrent_activation='sigmoid')(rnn)
     rnn = tf.keras.layers.Dropout(.25)(rnn)
-
     dense1 = tf.keras.layers.Dense(512, activation='sigmoid')(rnn)
     dense1 = tf.keras.layers.BatchNormalization()(dense1)
     dense2 = tf.keras.layers.Dense(512, activation='sigmoid')(dense1)
-
     outputs = tf.keras.layers.Dense(1, activation='sigmoid')(dense2)
-
     model = tf.keras.Model(inputs=[rnn1], outputs=outputs)
     return model
 
@@ -34,7 +31,7 @@ def rnn_train(model, X_train, X_test, y_train, y_test):
                   optimizer=tf.optimizers.Adam(),
                   metrics=tf.keras.metrics.BinaryAccuracy())
 
-    model.fit(X_train, y_train, epochs=10)
+    model.fit(X_train, y_train, epochs=5)
 
     results = model.evaluate(X_test, y_test, batch_size=128)
     print(results)

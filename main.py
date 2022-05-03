@@ -1,7 +1,7 @@
 from src.data_preprocessing import *
 from src.EDA import *
 from src.models import *
-
+from src.NeuNets import *
 
 training_path = 'data/log_mini.csv'
 label_path = 'data/tf_mini.csv'
@@ -40,16 +40,16 @@ categorical_col = ['session_position', 'session_length', 'context_switch',
 
 countplot(df, categorical_col)
 
+#we choose to not downsample the data, since we're loosing accuracy if so
+skip_nonskip_distribution(downsample(df), "downsample")
 #====================
 #Cleaning
 #====================
 
 df = dummy_creation(df)
 df = normalize_float(df)
-#df = downsample(df)
 
-#we choose to not downsample the data, since we're loosing accuracy if so
-skip_nonskip_distribution(df, "downsample")
+
 
 #=============================
 #Model -> only track features
@@ -60,8 +60,8 @@ print(logistic_model(X_train, X_test, y_train, y_test))
 print(GBC_model(X_train, X_test, y_train, y_test, hyper_tuning = False))
 print(RF_model(X_train, X_test, y_train, y_test, hyper_tuning = False))
 
-
 del X_train, X_test, y_train, y_test
+
 #=============================
 #Model -> all features
 #=============================
@@ -70,3 +70,8 @@ X_train, X_test, y_train, y_test = split_data(df, only_track= False)
 print(logistic_model(X_train, X_test, y_train, y_test))
 print(GBC_model(X_train, X_test, y_train, y_test, hyper_tuning = False))
 print(RF_model(X_train, X_test, y_train, y_test, hyper_tuning = False))
+
+X_train, X_test, y_train, y_test = rnn_preprocess(X_train, X_test, y_train, y_test)
+model = rnn_model(X_train)
+rnn_train(model, X_train, X_test, y_train, y_test)
+

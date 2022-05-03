@@ -23,6 +23,10 @@ def load_data(training_path, label_path):
 
 
 def dataset_info(df):
+    """
+    :param df: The pandas array with all the information (on the music itself and on the user sessions)
+    :return: information in the console about the dataset
+    """
     print(df.sample(3))
     print('\n')
     print(df.describe())
@@ -31,8 +35,8 @@ def dataset_info(df):
 
 def dummy_creation(df):
     """
-    :param df:
-    :return:
+    :param df: The pandas array with all the information (on the music itself and on the user sessions)
+    :return:The transformed dataset: strings columns are transformed into dummy variables
     """
 
     df['session_id'] = pd.factorize(df['session_id'])[0]
