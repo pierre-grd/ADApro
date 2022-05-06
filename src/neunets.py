@@ -31,7 +31,7 @@ def rnn_train(model, x_train, x_test, y_train, y_test):
                   optimizer=tf.optimizers.Adam(),
                   metrics=tf.keras.metrics.BinaryAccuracy())
     tb_callback = tf.keras.callbacks.TensorBoard(log_dir="models/logs/", histogram_freq=1)
-    model.fit(x_train, y_train, epochs=1, callbacks=[tb_callback])
+    model.fit(x_train, y_train, epochs=4, callbacks=[tb_callback])
 
     results = model.evaluate(x_test, y_test, batch_size=128)
     print(results)
