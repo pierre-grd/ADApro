@@ -1,4 +1,4 @@
-# Advanced Data Analytics (Louis-Pierre)
+# Advanced Data Analytics
 ## Spotify Sequential Skip Prediction
 ### Predict if users will skip or listen to the music they're streamed
 
