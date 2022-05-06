@@ -1,4 +1,4 @@
-# Advanced Data Analytics (Louis-Pierre)
+# Advanced Data Analytics
 ## Spotify Sequential Skip Prediction
 ### Predict if users will skip or listen to the music they're streamed
 
@@ -43,5 +43,14 @@
 │   └── models.py
 │   └── Neunets.py
 ├── main.py
+
+```
+### If you want to see the RNN performances and architecture, please run this in your console
+```
+script = """
+tensorboard --logdir models/logs
+"""
+os.system("bash -c '%s'" % script)
+#Then click on the http://localhost to analyse the training process and the performance of the model
 
 ```
