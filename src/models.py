@@ -5,6 +5,7 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import classification_report
+import joblib
 
 def split_data(df, only_track=True):
     if only_track:
@@ -24,10 +25,10 @@ def split_data(df, only_track=True):
 
 
 def train_logistic_model(x_train, x_test, y_train, y_test):
-    logistic_mod = LogisticRegression()
+    logistic_mod = LogisticRegression(max_iter=1000)
     logistic_mod.fit(x_train, y_train)
     logistic_prediction = logistic_mod.predict(x_test)
-    return classification_report(y_test, logistic_prediction)
+    return classification_report(y_test, logistic_prediction, output_dict=True)
 
 
 def train_gbc_model(x_train, x_test, y_train, y_test, hyper_tuning=False):
@@ -49,7 +50,9 @@ def train_gbc_model(x_train, x_test, y_train, y_test, hyper_tuning=False):
 
     gbc_model.fit(x_train, y_train)
     gbc_pred = gbc_model.predict(x_test)
-    return classification_report(y_test, gbc_pred)
+    filename = 'models/gbc_model.sav'
+    joblib.dump(gbc_model, open(filename, 'wb'))
+    return classification_report(y_test, gbc_pred, output_dict=True)
 
 
 def train_RF_model(x_train, x_test, y_train, y_test, hyper_tuning=False):
@@ -67,5 +70,7 @@ def train_RF_model(x_train, x_test, y_train, y_test, hyper_tuning=False):
 
     rf_model.fit(x_train, y_train)
     rf_model_pred = rf_model.predict(x_test)
+    filename = 'models/rf_model.sav'
+    joblib.dump(rf_model, open(filename, 'wb'))
     return classification_report(y_test, rf_model_pred, output_dict=True)
 

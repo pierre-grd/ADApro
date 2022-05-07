@@ -19,17 +19,17 @@ dataset_info(df)
 # ====================
 # EDA
 # ====================
-skip_nonskip_distribution(df, "raw")
+skip_nonskip_distribution(df, "raw", save_plot= True)
 
 acoust = ['acoustic_vector_0', 'acoustic_vector_1', 'acoustic_vector_2', 'acoustic_vector_3', 'acoustic_vector_4',
           'acoustic_vector_5', 'acoustic_vector_6', 'acoustic_vector_7']
-matrix(df[acoust])
+matrix(df[acoust], save_plot= True)
 
-hist_continuous(df)
+hist_continuous(df, save_plot= True)
 
 int_column = list(df.loc[:, df.dtypes == int].columns)
 float_column = list(df.loc[:, df.dtypes == float].columns)
-scatterplot_skip(df, int_column, float_column)
+scatterplot_skip(df, int_column, float_column, save_plot= True)
 
 categorical_col = ['session_position', 'session_length', 'context_switch',
                    'no_pause_before_play', 'short_pause_before_play',
@@ -37,10 +37,10 @@ categorical_col = ['session_position', 'session_length', 'context_switch',
                    'premium', 'context_type',
                    'mode']
 
-countplot(df, categorical_col)
+countplot(df, categorical_col, save_plot= True)
 
 # we choose to not downsample the data, since we're loosing accuracy if so
-skip_nonskip_distribution(downsample(df), "downsample")
+skip_nonskip_distribution(downsample(df), "downsample", save_plot= True)
 # ====================
 # Cleaning
 # ====================
@@ -60,22 +60,23 @@ x_train, x_test, y_train, y_test = split_data(df, only_track=True)
 #plot_classification_report(bgc_report)
 
 rf_report = train_RF_model(x_train, x_test, y_train, y_test, hyper_tuning=False)
-plot_classification_report(rf_report)
+plot_classification_report(rf_report, save_plot= True)
 del x_train, x_test, y_train, y_test
 
 # =============================
 # Model -> all features
 # =============================
-
+print("splitting data")
 x_train, x_test, y_train, y_test = split_data(df, only_track=False)
+print("train logit model")
 logit_report = train_logistic_model(x_train, x_test, y_train, y_test)
-plot_classification_report(logit_report)
-
-bgc_report = train_gbc_model(x_train, x_test, y_train, y_test, hyper_tuning=False)
-plot_classification_report(bgc_report)
-
+plot_classification_report(logit_report, 'logit', save_plot= True)
+print("train gbc model")
+gbc_report = train_gbc_model(x_train, x_test, y_train, y_test, hyper_tuning=False)
+plot_classification_report(gbc_report, 'gbc', save_plot= True)
+print("train rf model")
 rf_report = train_RF_model(x_train, x_test, y_train, y_test, hyper_tuning=False)
-plot_classification_report(rf_report)
+plot_classification_report(rf_report, 'rf', save_plot= True)
 
 
 x_train, x_test, y_train, y_test = rnn_preprocess(x_train, x_test, y_train, y_test)
