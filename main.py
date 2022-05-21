@@ -60,7 +60,7 @@ x_train, x_test, y_train, y_test = split_data(df, only_track=True)
 #plot_classification_report(bgc_report)
 
 rf_report = train_RF_model(x_train, x_test, y_train, y_test, hyper_tuning=False)
-plot_classification_report(rf_report, save_plot= True)
+plot_classification_report(rf_report,"rf", save_plot= True)
 del x_train, x_test, y_train, y_test
 
 # =============================
