@@ -47,6 +47,7 @@ skip_nonskip_distribution(downsample(df), "downsample", save_plot= True)
 
 df = dummy_creation(df)
 df = normalize_float(df)
+df = downsample(df)
 
 # =============================
 # Model -> only track features
