@@ -58,14 +58,45 @@ git clone https://github.com/pierre-grd/ADApro.git
 ```
 cd ADVpro
 ```
+3) Create your virtual environment
 
+
+```
+python3.9 -m venv venv
+```
+
+
+4) Enter in your environment
+
+Linux / OSX
+
+```
+source venv/bin/activate venv venv
+```
+
+Windows
+
+```
+.\venv\Scripts\activate
+```
+
+5) Install Libraries
+```
+pip3 install -r requirements.txt or pip install -r requirements.txt
+```
+
+6) Run project
+
+```
+python main.py
+```
 
 ### If you want to see the RNN performances and architecture, please run this in your console
 ```
-script = """
+python script = """
 tensorboard --logdir models/logs
 """
-os.system("bash -c '%s'" % script)
+python os.system("bash -c '%s'" % script)
 #Then click on the http://localhost to analyse the training process and the performance of the model
 
 ```
