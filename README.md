@@ -50,7 +50,7 @@
 
 1) Clone Project
 ```
-git clone https://github.com/pierre-grd/ADVpro.git
+git clone https://github.com/pierre-grd/ADApro.git
 ```
 
 2) Go into project folder
