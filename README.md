@@ -93,10 +93,15 @@ python main.py
 
 ### If you want to see the RNN performances and architecture, please run this in your console
 ```
-python script = """
+python
+import os
+
+script = """
 tensorboard --logdir models/logs
 """
-python os.system("bash -c '%s'" % script)
+
+os.system("bash -c '%s'" % script)
+
 #Then click on the http://localhost to analyse the training process and the performance of the model
 
 ```
