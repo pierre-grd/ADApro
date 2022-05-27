@@ -45,6 +45,21 @@
 ├── main.py
 
 ```
+
+# Install our code on your machine
+
+1) Clone Project
+```
+git clone https://github.com/pierre-grd/ADVpro.git
+```
+
+2) Go into project folder
+
+```
+cd ADVpro
+```
+
+
 ### If you want to see the RNN performances and architecture, please run this in your console
 ```
 script = """
